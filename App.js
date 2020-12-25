@@ -1,26 +1,37 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { Button, FlatList, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import GoalInput from './components/GoalInput';
 import GoalItem from './components/GoalItem';
 
 export default function App() {
-  const [courseGoals, setCoursGoals] = React.useState([]);
+  const [courseGoals, setCourseGoals] = React.useState([]);
 
   const addGoalHandler = (goalTitle) => {
-    setCoursGoals((currentGoals) => [
+    setCourseGoals((currentGoals) => [
       ...courseGoals,
-      { key: Math.random().toString(), value: goalTitle },
+      { id: Math.random().toString(), value: goalTitle },
     ]);
+  };
+
+  const removeGoalHandler = (goalId) => {
+    setCourseGoals((currentGoals) => {
+      return currentGoals.filter((goal) => goal.id !== goalId);
+    });
   };
 
   return (
     <View style={styles.screen}>
       <GoalInput onAddGoal={addGoalHandler} />
       <FlatList
-        keyExtractor={(item, index) => item.key}
+        keyExtractor={(item, index) => item.id}
         data={courseGoals}
-        renderItem={(itemData) => <GoalItem itemData={itemData} />}
+        renderItem={(itemData) => (
+          <GoalItem
+            id={itemData.item.id}
+            onDelete={removeGoalHandler}
+            title={itemData.item.value}
+          />
+        )}
       />
     </View>
   );
