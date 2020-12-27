@@ -1,11 +1,16 @@
 import React from 'react';
 import { Button, Modal, StyleSheet, TextInput, View } from 'react-native';
 
-function GoalInput({ onAddGoal, visible }) {
+function GoalInput({ onAddGoal, visible, onCancel }) {
   const [enteredGoal, setEnteredGoal] = React.useState('');
 
   const goalInputHandler = (enteredText) => {
     setEnteredGoal(enteredText);
+  };
+
+  const addGoalHandler = () => {
+    onAddGoal(enteredGoal);
+    setEnteredGoal('');
   };
 
   return (
@@ -17,7 +22,10 @@ function GoalInput({ onAddGoal, visible }) {
           onChangeText={goalInputHandler}
           value={enteredGoal}
         />
-        <Button title="ADD" onPress={() => onAddGoal(enteredGoal)} />
+        <View style={styles.buttons}>
+          <Button title="ADD" onPress={addGoalHandler} />
+          <Button title="CANCEL" color="purple" onPress={onCancel} />
+        </View>
       </View>
     </Modal>
   );
@@ -25,8 +33,8 @@ function GoalInput({ onAddGoal, visible }) {
 
 const styles = StyleSheet.create({
   inputContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   input: {
@@ -35,6 +43,10 @@ const styles = StyleSheet.create({
     padding: 10,
     width: 200,
     borderRadius: 15,
+    marginBottom: 10,
+  },
+  buttons: {
+    flexDirection: 'row',
   },
 });
 
