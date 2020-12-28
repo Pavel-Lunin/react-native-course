@@ -12,6 +12,12 @@ function GoalInput({ onAddGoal, visible, onCancel }) {
     onAddGoal(enteredGoal);
     setEnteredGoal('');
   };
+  const addCancelHandler = () => {
+    onCancel();
+    setEnteredGoal('');
+  };
+
+  /* clearing input on cancel handler*/
 
   return (
     <Modal visible={visible} animationType="slide">
@@ -27,7 +33,7 @@ function GoalInput({ onAddGoal, visible, onCancel }) {
             <Button title="ADD" onPress={addGoalHandler} />
           </View>
           <View style={styles.button}>
-            <Button title="CANCEL" color="purple" onPress={onCancel} />
+            <Button title="CANCEL" color="purple" onPress={addCancelHandler} />
           </View>
         </View>
       </View>
